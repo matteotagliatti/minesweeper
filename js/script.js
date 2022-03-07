@@ -1,5 +1,7 @@
 const buttons = document.querySelectorAll("button");
 const BOMBS_NUMBER = 16;
+const icon = document.getElementById("face-icon");
+icon.src = `images/smile-icon.png`;
 
 for (let i = 0; i < buttons.length; i++) {
   buttons[i].addEventListener("click", function () {
@@ -7,6 +9,7 @@ for (let i = 0; i < buttons.length; i++) {
 
     /* EXTRA */
     changeDifficultyDisplay(buttons[i].innerText); // change diffuclty counter
+    icon.src = `images/smile-icon.png`; // reset icon img
   });
 }
 
@@ -66,6 +69,9 @@ function endGame(bombs) {
   messageDiv.classList.add("message");
   messageDiv.innerHTML = "<p>Game Over</p>";
   document.querySelector("#grid").append(messageDiv);
+
+  //
+  icon.src = `images/dead-face.png`;
 }
 
 /**
