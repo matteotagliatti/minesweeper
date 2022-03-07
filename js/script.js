@@ -26,13 +26,12 @@ function play(cellsNumber) {
   const bombs = createBombs(cellsNumber);
 
   for (let i = 0; i < cellsNumber; i++) {
-    const cell = createCell(cellsNumber);
-    cell.innerHTML = `${[i + 1]}`;
+    const cell = createCell(cellsNumber, i);
 
     cell.addEventListener("click", function () {
       if (bombs.includes(parseInt(cell.innerHTML))) {
         this.classList.add("bg-red");
-        endGame();
+        endGame(bombs);
       } else {
         this.classList.add("bg-blue");
         this.style.pointerEvents = "none"; // remove possibility of multiple click on a single cell
@@ -45,11 +44,19 @@ function play(cellsNumber) {
   }
 }
 
-function endGame() {
+function endGame(bombs) {
   const messageDiv = document.createElement("div");
   messageDiv.classList.add("message");
   messageDiv.innerHTML = "<p>Game Over</p>";
   document.querySelector("#grid").append(messageDiv);
+
+  const cells = document.querySelectorAll("#grid > div");
+  for (let i = 0; i < cells.length; i++) {
+    const cell = cells[i];
+    if (bombs.includes(i)) {
+      cell.classList.add("bg-red");
+    }
+  }
 }
 
 /**
@@ -57,11 +64,12 @@ function endGame() {
  * @param {*} cellsNumber
  * @returns
  */
-function createCell(cellsNumber) {
+function createCell(cellsNumber, i) {
   const cell = document.createElement("div");
   if (cellsNumber == 100) cell.classList.add("easy");
   if (cellsNumber == 81) cell.classList.add("medium");
   if (cellsNumber == 49) cell.classList.add("hard");
+  cell.innerHTML = `${[i + 1]}`;
   return cell;
 }
 
