@@ -1,4 +1,5 @@
 const buttons = document.querySelectorAll("button");
+const BOMBS_NUMBER = 16;
 
 for (let i = 0; i < buttons.length; i++) {
   buttons[i].addEventListener("click", function () {
@@ -19,6 +20,9 @@ function createCells(cellsNumber) {
   const grid = document.getElementById("grid");
   grid.innerHTML = ""; // remove all elements before create new cells
 
+  const bombs = createBombs(cellsNumber);
+  console.log(bombs);
+
   for (let i = 0; i < cellsNumber; i++) {
     const cell = document.createElement("div");
 
@@ -26,19 +30,42 @@ function createCells(cellsNumber) {
     if (cellsNumber == 81) cell.classList.add("medium");
     if (cellsNumber == 49) cell.classList.add("hard");
 
-    cell.addEventListener("click", bgBlue);
     cell.innerHTML = `${[i + 1]}`;
+
+    cell.addEventListener("click", function () {
+      if (bombs.includes(parseInt(cell.innerHTML))) {
+        cell.classList.add("bg-red");
+      } else {
+        cell.classList.add("bg-blue");
+      }
+    });
+
     grid.appendChild(cell);
   }
 }
 
+function createBombs(cellsNumber) {
+  const bombs = [];
+  while (bombs.length < BOMBS_NUMBER) {
+    const bomb = getRandomInt(1, cellsNumber); // generate random integer between 1 and the number of cells
+
+    if (!bombs.includes(bomb)) bombs.push(bomb); // push only unique numbers
+  }
+
+  return bombs;
+}
+
 /**
- * Add blue background
- * @param {*} event
+ * Generate a number between 2 numbers
+ * @param {*} min
+ * @param {*} max
+ * @returns
  */
-function bgBlue(event) {
-  const cell = event.target;
-  cell.classList.toggle("bg-blue");
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  let result = Math.floor(Math.random() * (max - min + 1)) + min;
+  return result;
 }
 
 /**** EXTRA ****/

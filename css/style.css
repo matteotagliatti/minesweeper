@@ -133,9 +133,16 @@ body {
   cursor: pointer;
 }
 
+/* Game Board - Grid - Colors */
+
 #grid div.bg-blue {
   color: white;
   background-color: blue;
+}
+
+#grid div.bg-red {
+  color: white;
+  background-color: red;
 }
 
 /* Game Board - Grid - Width/Height */
