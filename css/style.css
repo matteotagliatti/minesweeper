@@ -128,7 +128,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-size: 40%;
+
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -142,12 +142,14 @@ main {
 #grid div.bg-blue {
   color: white;
   background-image: url(../images/flag.png);
+  background-size: 35%;
   background-color: blue;
 }
 
 #grid div.bg-red {
   color: white;
   background-image: url(../images/bomb.png);
+  background-size: 60%;
   background-color: red;
 }
 

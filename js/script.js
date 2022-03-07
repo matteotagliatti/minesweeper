@@ -31,10 +31,12 @@ function play(cellsNumber) {
     cell.addEventListener("click", function () {
       if (bombs.includes(parseInt(cell.innerHTML))) {
         this.classList.add("bg-red");
+        this.innerText = "";
         endGame(bombs);
       } else {
         this.classList.add("bg-blue");
         this.style.pointerEvents = "none"; // remove possibility of multiple click on a single cell
+        this.innerText = "";
         points++;
         displayPoints.innerText = writePoints(points);
       }
@@ -53,6 +55,7 @@ function endGame(bombs) {
   for (let i = 0; i < cells.length; i++) {
     const cell = cells[i];
     if (bombs.includes(i)) {
+      cell.innerText = "";
       cell.classList.add("bg-red");
     }
   }
