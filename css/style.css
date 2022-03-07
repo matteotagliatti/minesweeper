@@ -141,8 +141,6 @@ main {
 
 #grid div.bg-blue {
   color: white;
-  background-image: url(../images/flag.png);
-  background-size: 35%;
   background-color: blue;
 }
 
