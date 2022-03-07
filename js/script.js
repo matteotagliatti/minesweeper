@@ -45,6 +45,11 @@ function play(cellsNumber) {
   }
 }
 
+/**
+ * Create a cell
+ * @param {*} cellsNumber
+ * @returns
+ */
 function createCell(cellsNumber) {
   const cell = document.createElement("div");
   if (cellsNumber == 100) cell.classList.add("easy");
