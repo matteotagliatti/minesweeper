@@ -45,6 +45,13 @@ function play(cellsNumber) {
   }
 }
 
+function endGame() {
+  const messageDiv = document.createElement("div");
+  messageDiv.classList.add("message");
+  messageDiv.innerHTML = "<p>Game Over</p>";
+  document.querySelector("#grid").append(messageDiv);
+}
+
 /**
  * Create a cell
  * @param {*} cellsNumber

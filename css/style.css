@@ -36,7 +36,7 @@ body {
 
 /* Main */
 
-.flex-container {
+main {
   display: flex;
   justify-content: center;
   margin: 8rem 0;
@@ -114,6 +114,7 @@ body {
 /* Game Board - Grid */
 
 #grid {
+  position: relative;
   width: var(--grid-size);
   display: flex;
   flex-wrap: wrap;
@@ -203,6 +204,27 @@ footer div {
 footer .inline {
   display: inline;
   margin: 2px;
+}
+
+/* Message */
+
+.message {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.message > * {
+  padding: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  background-color: darkred;
 }
 
 /* Mobile */
