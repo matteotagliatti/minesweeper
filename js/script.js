@@ -20,8 +20,11 @@ function createCells(cellsNumber) {
   const grid = document.getElementById("grid");
   grid.innerHTML = ""; // remove all elements before create new cells
 
+  let points = 0;
+  const displayPoints = document.getElementById("point");
+  displayPoints.innerText = writePoints(points); // reset points
+
   const bombs = createBombs(cellsNumber);
-  console.log(bombs);
 
   for (let i = 0; i < cellsNumber; i++) {
     const cell = document.createElement("div");
@@ -35,8 +38,11 @@ function createCells(cellsNumber) {
     cell.addEventListener("click", function () {
       if (bombs.includes(parseInt(cell.innerHTML))) {
         cell.classList.add("bg-red");
+        endGame();
       } else {
         cell.classList.add("bg-blue");
+        points++;
+        displayPoints.innerText = writePoints(points);
       }
     });
 
@@ -66,6 +72,12 @@ function getRandomInt(min, max) {
   max = Math.floor(max);
   let result = Math.floor(Math.random() * (max - min + 1)) + min;
   return result;
+}
+
+function writePoints(point) {
+  if (point < 10) return `00${point}`;
+  if (point < 100) return `0${point}`;
+  if (point >= 100) return `${point}`;
 }
 
 /**** EXTRA ****/
