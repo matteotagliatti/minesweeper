@@ -3,7 +3,7 @@ const BOMBS_NUMBER = 16;
 
 for (let i = 0; i < buttons.length; i++) {
   buttons[i].addEventListener("click", function () {
-    createCells(buttons[i].value);
+    play(buttons[i].value);
 
     /* EXTRA */
     changeDifficultyDisplay(buttons[i].innerText); // change diffuclty counter
@@ -16,9 +16,8 @@ for (let i = 0; i < buttons.length; i++) {
  * Create all the cells
  * @param {*} cellsNumber
  */
-function createCells(cellsNumber) {
-  const grid = document.getElementById("grid");
-  grid.innerHTML = ""; // remove all elements before create new cells
+function play(cellsNumber) {
+  resetGrid();
 
   let points = 0;
   const displayPoints = document.getElementById("point");
@@ -27,20 +26,16 @@ function createCells(cellsNumber) {
   const bombs = createBombs(cellsNumber);
 
   for (let i = 0; i < cellsNumber; i++) {
-    const cell = document.createElement("div");
-
-    if (cellsNumber == 100) cell.classList.add("easy");
-    if (cellsNumber == 81) cell.classList.add("medium");
-    if (cellsNumber == 49) cell.classList.add("hard");
-
+    const cell = createCell(cellsNumber);
     cell.innerHTML = `${[i + 1]}`;
 
     cell.addEventListener("click", function () {
       if (bombs.includes(parseInt(cell.innerHTML))) {
-        cell.classList.add("bg-red");
+        this.classList.add("bg-red");
         endGame();
       } else {
-        cell.classList.add("bg-blue");
+        this.classList.add("bg-blue");
+        this.style.pointerEvents = "none"; // remove possibility of multiple click on a single cell
         points++;
         displayPoints.innerText = writePoints(points);
       }
@@ -50,6 +45,27 @@ function createCells(cellsNumber) {
   }
 }
 
+function createCell(cellsNumber) {
+  const cell = document.createElement("div");
+  if (cellsNumber == 100) cell.classList.add("easy");
+  if (cellsNumber == 81) cell.classList.add("medium");
+  if (cellsNumber == 49) cell.classList.add("hard");
+  return cell;
+}
+
+/**
+ * reset grid
+ */
+function resetGrid() {
+  const grid = document.getElementById("grid");
+  grid.innerHTML = ""; // remove all elements before create new cells
+}
+
+/**
+ *
+ * @param {*} cellsNumber
+ * @returns // bombs
+ */
 function createBombs(cellsNumber) {
   const bombs = [];
   while (bombs.length < BOMBS_NUMBER) {
@@ -74,6 +90,11 @@ function getRandomInt(min, max) {
   return result;
 }
 
+/**
+ * Write points in the DOM
+ * @param {*} point
+ * @returns
+ */
 function writePoints(point) {
   if (point < 10) return `00${point}`;
   if (point < 100) return `0${point}`;
