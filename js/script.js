@@ -13,7 +13,7 @@ for (let i = 0; i < buttons.length; i++) {
 /**** FUNCTIONS ****/
 
 /**
- * Create all the cells
+ * Play
  * @param {*} cellsNumber
  */
 function play(cellsNumber) {
@@ -59,7 +59,7 @@ function createCell(cellsNumber) {
 }
 
 /**
- * reset grid
+ * Reset grid
  */
 function resetGrid() {
   const grid = document.getElementById("grid");
