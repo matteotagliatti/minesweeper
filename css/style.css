@@ -231,15 +231,3 @@ footer .inline {
   display: inline;
   margin: 2px;
 }
-
-/* Mobile */
-
-@media screen and (max-width: 800px) {
-  body {
-    height: 100vh;
-  }
-
-  .flex-container {
-    margin: 2rem 0;
-  }
-}
