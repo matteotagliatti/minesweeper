@@ -23,7 +23,7 @@ function play(cellsNumber) {
   const displayPoints = document.getElementById("point");
   displayPoints.innerText = writePoints(points); // reset points
 
-  const bombs = createBombs(cellsNumber);
+  const bombs = createBombs(cellsNumber); // create all the bombs
 
   for (let i = 0; i < cellsNumber; i++) {
     const cell = createCell(cellsNumber, i);
@@ -51,6 +51,7 @@ function play(cellsNumber) {
  * @param {*} bombs // bombs array
  */
 function endGame(bombs) {
+  // Show all cells with bombs
   const cells = document.querySelectorAll("#grid > div");
   for (let i = 0; i < cells.length; i++) {
     const cell = cells[i];
@@ -60,6 +61,7 @@ function endGame(bombs) {
     }
   }
 
+  // Create Game Over message
   const messageDiv = document.createElement("div");
   messageDiv.classList.add("message");
   messageDiv.innerHTML = "<p>Game Over</p>";
