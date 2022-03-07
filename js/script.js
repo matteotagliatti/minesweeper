@@ -44,12 +44,11 @@ function play(cellsNumber) {
   }
 }
 
+/**
+ * End game
+ * @param {*} bombs // bombs array
+ */
 function endGame(bombs) {
-  const messageDiv = document.createElement("div");
-  messageDiv.classList.add("message");
-  messageDiv.innerHTML = "<p>Game Over</p>";
-  document.querySelector("#grid").append(messageDiv);
-
   const cells = document.querySelectorAll("#grid > div");
   for (let i = 0; i < cells.length; i++) {
     const cell = cells[i];
@@ -57,6 +56,11 @@ function endGame(bombs) {
       cell.classList.add("bg-red");
     }
   }
+
+  const messageDiv = document.createElement("div");
+  messageDiv.classList.add("message");
+  messageDiv.innerHTML = "<p>Game Over</p>";
+  document.querySelector("#grid").append(messageDiv);
 }
 
 /**

@@ -128,21 +128,26 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-size: 40%;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 #grid div:hover {
   cursor: pointer;
 }
 
-/* Game Board - Grid - Colors */
+/* Game Board - Grid - Colors and Background */
 
 #grid div.bg-blue {
   color: white;
+  background-image: url(../images/flag.png);
   background-color: blue;
 }
 
 #grid div.bg-red {
   color: white;
+  background-image: url(../images/bomb.png);
   background-color: red;
 }
 
@@ -161,6 +166,27 @@ main {
 #grid div.hard {
   width: calc(var(--grid-size) / 7);
   height: calc(var(--grid-size) / 7);
+}
+
+/* Game Board - Grid - Message */
+
+#grid div.message {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#grid div.message > p {
+  padding: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  background-color: darkred;
 }
 
 /* Footer */
@@ -206,27 +232,6 @@ footer .inline {
   margin: 2px;
 }
 
-/* Message */
-
-.message {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.message > * {
-  padding: 2rem;
-  font-size: 2rem;
-  font-weight: bold;
-  color: white;
-  background-color: darkred;
-}
-
 /* Mobile */
 
 @media screen and (max-width: 800px) {
@@ -236,14 +241,5 @@ footer .inline {
 
   .flex-container {
     margin: 2rem 0;
-  }
-
-  #grid {
-    width: var(--mobile-grid-size);
-  }
-
-  #grid div {
-    width: calc(var(--mobile-grid-size) / 10);
-    height: calc(var(--mobile-grid-size) / 10);
   }
 }
