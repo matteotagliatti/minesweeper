@@ -39,27 +39,12 @@ export enum Status {
   Ready = "ready",
 }
 
-export type Record = {
-  id: string;
-  game: Game;
-  board: Board;
-  startedAt: number;
-  duration: number;
-  name: string;
-};
-
 export enum GameLevel {
   Easy = "easy",
   Medium = "medium",
   Hard = "hard",
   Custom = "custom",
 }
-
-export type RecordsMap = {
-  [GameLevel.Easy]: Record[];
-  [GameLevel.Medium]: Record[];
-  [GameLevel.Hard]: Record[];
-};
 
 export type CountsMap = {
   total_attempts: number;

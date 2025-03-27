@@ -8,6 +8,7 @@ import { BOARD_MIN_SIZE } from "./lib/constants";
 import { Input } from "./components/ui/input";
 import { Button } from "./components/ui/button";
 import { useGameState } from "./lib/states";
+import { Bomb } from "lucide-react";
 
 function App() {
   const {
@@ -114,6 +115,14 @@ function App() {
   return (
     <div className="min-h-screen bg-background font-sans antialiased">
       <div className="max-w-screen-lg mx-auto p-2 flex flex-col items-center gap-4">
+        {/* Header */}
+        <header>
+          <div className="flex items-center gap-2">
+            <Bomb className="size-6 fill-foreground" />
+            <h1 className="font-heading text-xl">Minesweeper</h1>
+          </div>
+        </header>
+
         {/* Counter */}
         <section className="text-sm grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-2">
           <p>
@@ -148,7 +157,7 @@ function App() {
           </div>
           {gameLevel === GameLevel.Custom && (
             <>
-              <div className="mt-4 flex flex-wrap items-center gap-3 text-foreground">
+              <div className="mt-4 flex flex-wrap items-center gap-3">
                 <Input value={rows} onChange={(e) => setRows(e.target.value)} />
                 <Input value={cols} onChange={(e) => setCols(e.target.value)} />
                 <Input

@@ -20,5 +20,3 @@ export const HARD_MODE: BoardSettings = {
 
 export const BOARD_MAX_SIZE = 60;
 export const BOARD_MIN_SIZE = 5;
-
-export const RECORDS_MAX_ITEMS = 10;
