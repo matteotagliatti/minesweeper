@@ -8,7 +8,7 @@ import { BOARD_MIN_SIZE } from "./lib/constants";
 import { Input } from "./components/ui/input";
 import { Button } from "./components/ui/button";
 import { useGameState } from "./lib/states";
-import { Bomb, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 
 function App() {
   const {
