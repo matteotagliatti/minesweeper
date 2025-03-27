@@ -8,8 +8,10 @@ interface ClosedCellProps {
 
 function ClosedCell({ flagged }: ClosedCellProps) {
   return (
-    <div className={cn("size-8 bg-slate-600 rounded p-1")}>
-      {flagged && <Flag className="size-6 fill-red-500 text-white" />}
+    <div className={cn("size-8 bg-card rounded p-1 border border-border/40")}>
+      {flagged && (
+        <Flag className="size-6 fill-destructive text-card-foreground" />
+      )}
     </div>
   );
 }

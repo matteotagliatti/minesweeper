@@ -34,34 +34,36 @@ function App() {
     );
   };
   return (
-    <main>
-      <div className="flex justify-center">
-        <div
-          className="flex flex-col gap-0.5"
-          onContextMenu={(e) => e.preventDefault()}
-        >
-          {board.map((row, i) => (
-            <div key={i} className="flex gap-0.5">
-              {row.map((cell, j) => (
-                <div
-                  key={j}
-                  onClick={handleOpenCell}
-                  onContextMenu={handleFlagCell}
-                  data-row={i}
-                  data-col={j}
-                >
-                  {game.openedMap[`${i}-${j}`] ? (
-                    <OpenedCell cell={cell} />
-                  ) : (
-                    <ClosedCell flagged={game.flaggedMap[`${i}-${j}`]} />
-                  )}
-                </div>
-              ))}
-            </div>
-          ))}
+    <div className="min-h-screen bg-background font-sans antialiased">
+      <main>
+        <div className="flex justify-center">
+          <div
+            className="flex flex-col gap-0.5"
+            onContextMenu={(e) => e.preventDefault()}
+          >
+            {board.map((row, i) => (
+              <div key={i} className="flex gap-0.5">
+                {row.map((cell, j) => (
+                  <div
+                    key={j}
+                    onClick={handleOpenCell}
+                    onContextMenu={handleFlagCell}
+                    data-row={i}
+                    data-col={j}
+                  >
+                    {game.openedMap[`${i}-${j}`] ? (
+                      <OpenedCell cell={cell} />
+                    ) : (
+                      <ClosedCell flagged={game.flaggedMap[`${i}-${j}`]} />
+                    )}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
 
