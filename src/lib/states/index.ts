@@ -10,6 +10,7 @@ export function useGameState() {
   const handleMove = useGameStore((s) => s.handleMove);
   const newGame = useGameStore((s) => s.newGame);
   const newCustomGame = useGameStore((s) => s.newCustomGame);
+  const resetGame = useGameStore((s) => s.resetGame);
 
   const saveCount = useCounterStore((s) => s.saveCount);
   const getCounts = useCounterStore((s) => s.getCounts);
@@ -24,6 +25,7 @@ export function useGameState() {
     handleMove,
     newGame,
     newCustomGame,
+    resetGame,
     saveCount,
     getCounts,
     total,

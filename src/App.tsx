@@ -8,7 +8,7 @@ import { BOARD_MIN_SIZE } from "./lib/constants";
 import { Input } from "./components/ui/input";
 import { Button } from "./components/ui/button";
 import { useGameState } from "./lib/states";
-import { Bomb } from "lucide-react";
+import { Bomb, RefreshCw } from "lucide-react";
 
 function App() {
   const {
@@ -19,6 +19,7 @@ function App() {
     handleMove,
     newGame,
     newCustomGame,
+    resetGame,
     saveCount,
     getCounts,
     total,
@@ -172,6 +173,21 @@ function App() {
             </>
           )}
         </section>
+
+        {(status === Status.Win || status === Status.Lose) && (
+          <section>
+            <div className="flex flex-col items-center gap-2 mb-4">
+              <p className="text-lg font-semibold">
+                {status === Status.Win ? "You Won! 🎉" : "Game Over! 💣"}
+              </p>
+              <Button onClick={resetGame} className="flex items-center gap-2">
+                <RefreshCw className="size-4" />
+                Play Again
+              </Button>
+            </div>
+          </section>
+        )}
+
         {/* Board */}
         <main>
           <div
