@@ -119,7 +119,7 @@ function App() {
         {/* Header */}
         <header>
           <div className="flex items-center gap-2">
-            <Bomb className="size-6 fill-foreground" />
+            <span className="text-2xl">💣</span>
             <h1 className="font-heading text-xl">Minesweeper</h1>
           </div>
         </header>
@@ -174,6 +174,7 @@ function App() {
           )}
         </section>
 
+        {/* Restart */}
         {(status === Status.Win || status === Status.Lose) && (
           <section>
             <div className="flex flex-col items-center gap-2 mb-4">
