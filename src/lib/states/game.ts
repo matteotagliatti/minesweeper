@@ -14,6 +14,7 @@ interface GameState {
   gameLevel: GameLevel;
 
   // Actions
+  setGameLevel: (gameLevel: GameLevel) => void;
   newGame: (gameLevel: GameLevel) => void;
   newCustomGame: (settings: BoardSettings) => void;
   resetGame: () => void;
@@ -27,6 +28,10 @@ export const useGameStore = create<GameState>((set) => ({
   duration: 0,
   startedAt: 0,
   gameLevel: GameLevel.Easy,
+
+  setGameLevel: (gameLevel) => {
+    set({ gameLevel });
+  },
 
   newGame: (gameLevel) => {
     if (gameLevel === GameLevel.Custom) {

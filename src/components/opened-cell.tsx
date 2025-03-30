@@ -1,5 +1,4 @@
 import { memo } from "react";
-import { Bomb } from "lucide-react";
 import { BoardCell, Cell } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -22,13 +21,11 @@ function OpenedCell({ cell }: OpenedCellProps) {
   return (
     <div
       className={cn(
-        "size-8 rounded-sm p-1 text-xl font-semibold flex justify-center items-center overflow-hidden bg-secondary",
+        "size-10 rounded-sm p-1 text-xl font-semibold flex justify-center items-center overflow-hidden bg-secondary",
         typeof cell === "number" && colorMap[cell]
       )}
     >
-      {cell === Cell.Mine && (
-        <Bomb className="fill-destructive text-destructive size-6" />
-      )}
+      {cell === Cell.Mine && <span className="size-6">💣</span>}
       {typeof cell === "number" && cell}
     </div>
   );

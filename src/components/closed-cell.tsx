@@ -1,5 +1,4 @@
 import { memo } from "react";
-import { Flag } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ClosedCellProps {
@@ -8,10 +7,12 @@ interface ClosedCellProps {
 
 function ClosedCell({ flagged }: ClosedCellProps) {
   return (
-    <div className={cn("size-8 bg-card rounded p-1 border border-border/40")}>
-      {flagged && (
-        <Flag className="size-6 fill-destructive text-card-foreground" />
+    <div
+      className={cn(
+        "size-10 bg-card rounded p-1 border border-border/40 hover:bg-card/80 transition-colors cursor-pointer"
       )}
+    >
+      {flagged && <span className="size-6">🚩</span>}
     </div>
   );
 }

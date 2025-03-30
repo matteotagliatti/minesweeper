@@ -11,7 +11,7 @@ export function useGameState() {
   const newGame = useGameStore((s) => s.newGame);
   const newCustomGame = useGameStore((s) => s.newCustomGame);
   const resetGame = useGameStore((s) => s.resetGame);
-
+  const setGameLevel = useGameStore((s) => s.setGameLevel);
   const saveCount = useCounterStore((s) => s.saveCount);
   const getCounts = useCounterStore((s) => s.getCounts);
   const total = useCounterStore((s) => s.total);
@@ -26,6 +26,7 @@ export function useGameState() {
     newGame,
     newCustomGame,
     resetGame,
+    setGameLevel,
     saveCount,
     getCounts,
     total,
