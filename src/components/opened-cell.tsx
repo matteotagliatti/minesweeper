@@ -1,34 +1,31 @@
-import { memo } from "react";
-import { BoardCell, Cell } from "@/lib/types";
+import { Cell, BoardCell } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-const colorMap: { [key: number]: string } = {
-  1: "text-chart-1",
-  2: "text-chart-2",
-  3: "text-chart-3",
-  4: "text-chart-4",
-  5: "text-chart-5",
-  6: "text-destructive",
-  7: "text-primary",
-  8: "text-secondary-foreground",
-};
-
-interface OpenedCellProps {
+interface Props {
   cell: BoardCell;
 }
 
-function OpenedCell({ cell }: OpenedCellProps) {
+const numberColors = {
+  1: "text-blue-500",
+  2: "text-green-500",
+  3: "text-red-500",
+  4: "text-purple-500",
+  5: "text-yellow-500",
+  6: "text-cyan-500",
+  7: "text-orange-500",
+  8: "text-pink-500",
+};
+
+export default function OpenedCell({ cell }: Props) {
   return (
-    <div
+    <span
       className={cn(
-        "size-10 rounded-sm p-1 text-xl font-semibold flex justify-center items-center overflow-hidden bg-secondary",
-        typeof cell === "number" && colorMap[cell]
+        "inline-flex items-center justify-center size-8 sm:size-10 select-none rounded-sm border border-border/50 bg-background font-medium",
+        typeof cell === "number" &&
+          numberColors[cell as keyof typeof numberColors]
       )}
     >
-      {cell === Cell.Mine && <span className="size-6">💣</span>}
-      {typeof cell === "number" && cell}
-    </div>
+      {cell === Cell.Mine ? "💣" : cell === Cell.Blank ? "" : cell}
+    </span>
   );
 }
-
-export default memo(OpenedCell);

@@ -1,20 +1,38 @@
-import { memo } from "react";
 import { cn } from "@/lib/utils";
 
-interface ClosedCellProps {
-  flagged: boolean;
+interface Props {
+  flagged?: boolean;
+  onLongPress?: () => void;
 }
 
-function ClosedCell({ flagged }: ClosedCellProps) {
+export default function ClosedCell({ flagged, onLongPress }: Props) {
+  let touchTimeout: NodeJS.Timeout;
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchTimeout = setTimeout(() => {
+      e.preventDefault();
+      onLongPress?.();
+    }, 300);
+  };
+
+  const handleTouchEnd = () => {
+    clearTimeout(touchTimeout);
+  };
+
+  const handleTouchMove = () => {
+    clearTimeout(touchTimeout);
+  };
+
   return (
-    <div
+    <span
       className={cn(
-        "size-10 bg-card rounded p-1 border border-border/40 hover:bg-card/80 transition-colors cursor-pointer"
+        "inline-flex items-center justify-center size-8 sm:size-10 select-none rounded-sm border border-border/50 bg-muted/50 hover:bg-muted/80 transition-colors cursor-pointer touch-none",
+        flagged && "bg-muted"
       )}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onTouchMove={handleTouchMove}
     >
-      {flagged && <span className="size-6">🚩</span>}
-    </div>
+      {flagged && "🚩"}
+    </span>
   );
 }
-
-export default memo(ClosedCell);

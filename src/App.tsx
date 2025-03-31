@@ -7,7 +7,7 @@ import { BOARD_MIN_SIZE } from "./lib/constants";
 import { Input } from "./components/ui/input";
 import { Button } from "./components/ui/button";
 import { useGameState } from "./lib/states";
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, Flag } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -39,30 +39,18 @@ function App() {
   const [cols, setCols] = useState("5");
   const [mines, setMines] = useState("10");
   const [errMsg, setErrMsg] = useState("");
+  const [isFlagMode, setIsFlagMode] = useState(false);
 
-  const handleOpenCell = (
-    ev: React.MouseEvent<HTMLSpanElement, MouseEvent>
-  ) => {
-    const el = ev.currentTarget;
-    const { row, col } = el.dataset;
-    if (row === undefined || col === undefined) return;
-    handleMove(
-      { row: parseInt(row, 10), col: parseInt(col, 10), click: Click.Left },
-      board
-    );
+  const handleCellInteraction = (row: number, col: number) => {
+    if (isFlagMode) {
+      handleMove({ row, col, click: Click.Right }, board);
+    } else {
+      handleMove({ row, col, click: Click.Left }, board);
+    }
   };
 
-  const handleFlagCell = (
-    ev: React.MouseEvent<HTMLSpanElement, MouseEvent>
-  ) => {
-    ev.preventDefault();
-    const el = ev.currentTarget;
-    const { row, col } = el.dataset;
-    if (row === undefined || col === undefined) return;
-    handleMove(
-      { row: parseInt(row), col: parseInt(col), click: Click.Right },
-      board
-    );
+  const handleLongPress = (row: number, col: number) => {
+    handleMove({ row, col, click: Click.Right }, board);
   };
 
   const gameLevelOpts = useMemo(
@@ -124,105 +112,145 @@ function App() {
 
   return (
     <div className="min-h-screen bg-background font-sans antialiased">
-      <div className="max-w-screen-lg mx-auto p-2 flex flex-col items-center gap-4">
-        {/* Counter */}
-        <section className="text-sm grid grid-cols-1 lg:grid-cols-3 gap-x-6 gap-y-2">
-          <p>
-            Total attempts: <span>{total}</span>
-          </p>
-          <p>
-            Solved boards: <span>{solved}</span>
-          </p>
-          <p>
-            Flags: <span>{getFlagsCount()}</span> /{" "}
-            <span className="text-muted-foreground">{getMaxFlags()} 🚩</span>
-          </p>
-        </section>
-
-        {/* Game settings */}
-        <section className="px-2 pb-4">
-          <div className="flex items-end gap-2">
-            <div className="space-y-1">
-              <label htmlFor="game-level" className="text-sm font-medium">
-                Game Level
-              </label>
-              <Select
-                name="game-level"
-                value={gameLevel}
-                onValueChange={(value) => setGameLevel(value as GameLevel)}
-              >
-                <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder="Select game level" />
-                </SelectTrigger>
-                <SelectContent>
-                  {gameLevelOpts.map((opt) => (
-                    <SelectItem key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <Button
-              onClick={() => newGame(gameLevel)}
-              className="flex items-center gap-2"
-            >
-              New Game
-            </Button>
-          </div>
-          {gameLevel === GameLevel.Custom && (
-            <>
-              <div className="mt-4 flex flex-wrap items-center gap-3">
-                <Input value={rows} onChange={(e) => setRows(e.target.value)} />
-                <Input value={cols} onChange={(e) => setCols(e.target.value)} />
-                <Input
-                  value={mines}
-                  onChange={(e) => setMines(e.target.value)}
-                />
-                <Button onClick={handlePlayCustomGame}>Play</Button>
-              </div>
-              {errMsg.length > 0 && (
-                <p className="text-sm text-destructive italic mt-2">{errMsg}</p>
-              )}
-            </>
-          )}
-        </section>
-
-        {/* Restart */}
-        {(status === Status.Win || status === Status.Lose) && (
-          <section>
-            <div className="flex flex-col items-center gap-2 mb-4">
-              <p className="text-lg font-semibold">
-                {status === Status.Win ? "You Won! 🎉" : "Game Over! 💣"}
-              </p>
+      <div className="container mx-auto p-4 flex flex-col items-center gap-6">
+        {/* Header */}
+        <header className="w-full max-w-xl">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold">Minesweeper</h1>
+            {(status === Status.Win || status === Status.Lose) && (
               <Button onClick={resetGame} className="flex items-center gap-2">
                 <RefreshCw className="size-4" />
                 Play Again
               </Button>
-            </div>
-          </section>
+            )}
+          </div>
+        </header>
+
+        {/* Game status */}
+        {(status === Status.Win || status === Status.Lose) && (
+          <div className="text-lg font-semibold">
+            {status === Status.Win ? "You Won! 🎉" : "Game Over! 💣"}
+          </div>
         )}
 
+        {/* Stats */}
+        <section className="w-full max-w-xl text-sm grid grid-cols-2 sm:grid-cols-3 gap-4 p-4 rounded-lg border bg-card">
+          <div>
+            <div className="text-muted-foreground">Total attempts</div>
+            <div className="text-xl font-medium">{total}</div>
+          </div>
+          <div>
+            <div className="text-muted-foreground">Solved boards</div>
+            <div className="text-xl font-medium">{solved}</div>
+          </div>
+          <div className="col-span-2 sm:col-span-1">
+            <div className="text-muted-foreground">Flags</div>
+            <div className="text-xl font-medium">
+              {getFlagsCount()} / {getMaxFlags()} 🚩
+            </div>
+          </div>
+        </section>
+
+        {/* Game settings */}
+        <section className="w-full max-w-xl space-y-4">
+          <div className="flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:items-end sm:justify-between gap-2">
+            <div className="flex gap-2 items-end">
+              <div className="flex-1 space-y-1.5">
+                <label htmlFor="game-level" className="text-sm font-medium">
+                  Game Level
+                </label>
+                <Select
+                  name="game-level"
+                  value={gameLevel}
+                  onValueChange={(value) => setGameLevel(value as GameLevel)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select game level" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {gameLevelOpts.map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              {gameLevel !== GameLevel.Custom && (
+                <Button
+                  onClick={() => newGame(gameLevel)}
+                  className="flex-1 sm:flex-none"
+                >
+                  New Game
+                </Button>
+              )}
+            </div>
+
+            <div className="flex gap-2 w-full sm:w-auto">
+              <Button
+                variant={isFlagMode ? "secondary" : "outline"}
+                onClick={() => setIsFlagMode(!isFlagMode)}
+                className="flex items-center gap-2 flex-1 sm:flex-none"
+              >
+                <Flag className="size-4" />
+                {isFlagMode ? "Flag Mode" : "Dig Mode"}
+              </Button>
+            </div>
+          </div>
+
+          {gameLevel === GameLevel.Custom && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <Input
+                  placeholder="Rows"
+                  value={rows}
+                  onChange={(e) => setRows(e.target.value)}
+                />
+                <Input
+                  placeholder="Columns"
+                  value={cols}
+                  onChange={(e) => setCols(e.target.value)}
+                />
+                <Input
+                  placeholder="Mines"
+                  value={mines}
+                  onChange={(e) => setMines(e.target.value)}
+                />
+              </div>
+              <Button
+                onClick={handlePlayCustomGame}
+                className="w-full sm:w-auto"
+              >
+                Play Custom Game
+              </Button>
+              {errMsg.length > 0 && (
+                <p className="text-sm text-destructive italic">{errMsg}</p>
+              )}
+            </div>
+          )}
+        </section>
+
         {/* Board */}
-        <main>
-          <div
-            className="flex flex-col gap-0.5"
-            onContextMenu={(e) => e.preventDefault()}
-          >
+        <main className="w-full lg:w-fit lg:mx-auto overflow-x-auto rounded-lg border bg-card p-4">
+          <div className="flex flex-col gap-0.5 min-w-fit mx-auto">
             {board.map((row, i) => (
               <div key={i} className="flex gap-0.5">
                 {row.map((cell, j) => (
                   <div
                     key={j}
-                    onClick={handleOpenCell}
-                    onContextMenu={handleFlagCell}
-                    data-row={i}
-                    data-col={j}
+                    onClick={() => handleCellInteraction(i, j)}
+                    onContextMenu={(e) => {
+                      e.preventDefault();
+                      handleMove({ row: i, col: j, click: Click.Right }, board);
+                    }}
                   >
                     {game.openedMap[`${i}-${j}`] ? (
                       <OpenedCell cell={cell} />
                     ) : (
-                      <ClosedCell flagged={game.flaggedMap[`${i}-${j}`]} />
+                      <ClosedCell
+                        flagged={game.flaggedMap[`${i}-${j}`]}
+                        onLongPress={() => handleLongPress(i, j)}
+                      />
                     )}
                   </div>
                 ))}
