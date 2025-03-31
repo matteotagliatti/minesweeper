@@ -1,8 +1,9 @@
-import { Cell, BoardCell } from "@/lib/types";
+import { Cell, BoardCell, Status } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 interface Props {
   cell: BoardCell;
+  status?: Status;
 }
 
 const numberColors = {
@@ -16,13 +17,16 @@ const numberColors = {
   8: "text-pink-500",
 };
 
-export default function OpenedCell({ cell }: Props) {
+export default function OpenedCell({ cell, status }: Props) {
+  const isLostMine = status === Status.Lose && cell === Cell.Mine;
+
   return (
     <span
       className={cn(
         "inline-flex items-center justify-center size-8 sm:size-10 select-none rounded-sm border border-border/50 bg-background font-medium",
         typeof cell === "number" &&
-          numberColors[cell as keyof typeof numberColors]
+          numberColors[cell as keyof typeof numberColors],
+        isLostMine && "bg-red-500/20"
       )}
     >
       {cell === Cell.Mine ? "💣" : cell === Cell.Blank ? "" : cell}

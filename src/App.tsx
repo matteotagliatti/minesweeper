@@ -245,7 +245,7 @@ function App() {
                     }}
                   >
                     {game.openedMap[`${i}-${j}`] ? (
-                      <OpenedCell cell={cell} />
+                      <OpenedCell cell={cell} status={status} />
                     ) : (
                       <ClosedCell
                         flagged={game.flaggedMap[`${i}-${j}`]}
