@@ -31,6 +31,8 @@ function App() {
     total,
     solved,
     setGameLevel,
+    getFlagsCount,
+    getMaxFlags,
   } = useGameState();
 
   const [rows, setRows] = useState("5");
@@ -124,12 +126,16 @@ function App() {
     <div className="min-h-screen bg-background font-sans antialiased">
       <div className="max-w-screen-lg mx-auto p-2 flex flex-col items-center gap-4">
         {/* Counter */}
-        <section className="text-sm grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-2">
+        <section className="text-sm grid grid-cols-1 lg:grid-cols-3 gap-x-6 gap-y-2">
           <p>
             Total attempts: <span>{total}</span>
           </p>
           <p>
             Solved boards: <span>{solved}</span>
+          </p>
+          <p>
+            Flags: <span>{getFlagsCount()}</span> /{" "}
+            <span className="text-muted-foreground">{getMaxFlags()} 🚩</span>
           </p>
         </section>
 

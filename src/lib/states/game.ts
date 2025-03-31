@@ -21,9 +21,11 @@ interface GameState {
   handleMove: (move: GameMove, board: Board) => void;
   setDuration: (duration: number) => void;
   setStartedAt: (startedAt: number) => void;
+  getFlagsCount: () => number;
+  getMaxFlags: () => number;
 }
 
-export const useGameStore = create<GameState>((set) => ({
+export const useGameStore = create<GameState>((set, get) => ({
   game: newGame(EASY_MODE.mines),
   duration: 0,
   startedAt: 0,
@@ -98,5 +100,16 @@ export const useGameStore = create<GameState>((set) => ({
 
   setStartedAt: (startedAt) => {
     set({ startedAt });
+  },
+
+  getFlagsCount: () => {
+    const state = get();
+    return Object.values(state.game.flaggedMap).filter(Boolean).length;
+  },
+
+  getMaxFlags: () => {
+    const state = get();
+    const game = state.game;
+    return game.minesCount;
   },
 }));

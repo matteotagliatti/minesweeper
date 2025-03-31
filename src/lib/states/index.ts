@@ -12,6 +12,8 @@ export function useGameState() {
   const newCustomGame = useGameStore((s) => s.newCustomGame);
   const resetGame = useGameStore((s) => s.resetGame);
   const setGameLevel = useGameStore((s) => s.setGameLevel);
+  const getFlagsCount = useGameStore((s) => s.getFlagsCount);
+  const getMaxFlags = useGameStore((s) => s.getMaxFlags);
   const saveCount = useCounterStore((s) => s.saveCount);
   const getCounts = useCounterStore((s) => s.getCounts);
   const total = useCounterStore((s) => s.total);
@@ -27,6 +29,8 @@ export function useGameState() {
     newCustomGame,
     resetGame,
     setGameLevel,
+    getFlagsCount,
+    getMaxFlags,
     saveCount,
     getCounts,
     total,
