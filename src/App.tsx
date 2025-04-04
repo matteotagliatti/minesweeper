@@ -7,7 +7,7 @@ import { BOARD_MIN_SIZE } from "./lib/constants";
 import { Input } from "./components/ui/input";
 import { Button } from "./components/ui/button";
 import { useGameState } from "./lib/states";
-import { RefreshCw, Flag } from "lucide-react";
+import { Flag } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./components/ui/select";
+import { GameStatusDialog } from "./components/game-status-dialog";
 
 function App() {
   const {
@@ -40,6 +41,7 @@ function App() {
   const [mines, setMines] = useState("10");
   const [errMsg, setErrMsg] = useState("");
   const [isFlagMode, setIsFlagMode] = useState(false);
+  const [showStatusDialog, setShowStatusDialog] = useState(false);
 
   const handleCellInteraction = (row: number, col: number) => {
     if (isFlagMode) {
@@ -100,9 +102,11 @@ function App() {
     if (status === Status.Win) {
       saveCount("solved_boards");
       saveCount("total_attempts");
+      setShowStatusDialog(true);
     }
     if (status === Status.Lose) {
       saveCount("total_attempts");
+      setShowStatusDialog(true);
     }
   }, [saveCount, status]);
 
@@ -110,28 +114,25 @@ function App() {
     getCounts();
   }, [getCounts]);
 
+  const handleNewGame = () => {
+    resetGame();
+    setShowStatusDialog(false);
+  };
+
   return (
     <div className="min-h-screen bg-background font-sans antialiased">
       <div className="container mx-auto p-4 flex flex-col items-center gap-6">
+        {/* Game Status Dialog */}
+        <GameStatusDialog
+          status={status}
+          isOpen={showStatusDialog}
+          onNewGame={handleNewGame}
+        />
+
         {/* Header */}
         <header className="w-full max-w-xl">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">Minesweeper</h1>
-            {(status === Status.Win || status === Status.Lose) && (
-              <Button onClick={resetGame} className="flex items-center gap-2">
-                <RefreshCw className="size-4" />
-                Play Again
-              </Button>
-            )}
-          </div>
+          <h1 className="text-2xl font-bold">Minesweeper</h1>
         </header>
-
-        {/* Game status */}
-        {(status === Status.Win || status === Status.Lose) && (
-          <div className="text-lg font-semibold">
-            {status === Status.Win ? "You Won! 🎉" : "Game Over! 💣"}
-          </div>
-        )}
 
         {/* Stats */}
         <section className="w-full max-w-xl text-sm grid grid-cols-2 sm:grid-cols-3 gap-4 p-4 rounded-lg border bg-card">
